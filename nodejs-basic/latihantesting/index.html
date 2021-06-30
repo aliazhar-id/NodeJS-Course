@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Document</title>
+		<style>
+		.noscroll { overflow: hidden; }
+		@media (min-device-width: 1025px) {
+		/* not strictly necessary, just an experiment for
+		this specific example and couldn't be necessary
+		at all on some browser */
+		.noscroll {
+		padding-right: 15px;
+		}
+		}
+		.overlay {
+		position: fixed;
+		overflow-y: scroll;
+		top: 0; left: 0; right: 0; bottom: 0;
+		}
+		[aria-hidden="true"] {
+		transition: opacity 1s, z-index 0s 1s;
+		width: 100vw;
+		z-index: -1;
+		opacity: 0;
+		}
+		[aria-hidden="false"] {
+		transition: opacity 1s;
+		width: 100%;
+		z-index: 1;
+		opacity: 1;
+		}
+		</style>
+	</head>
+	<body>
+		<section class="overlay" >
+			<div>
+				<h2>Hello, I'm the overlayer</h2>
+				<button type="button" class="close-overlay">CLOSE LAYER</button>
+			</div>
+		</section>
+		<script>
+			var body = document.body,
+		overlay = document.querySelector('.overlay'),
+		overlayBtts = document.querySelectorAll('button[class$="overlay"]');
+		[].forEach.call(overlayBtts, function(btt) {
+		btt.addEventListener('click', function() {
+		/* Detect the button class name */
+		var overlayOpen = this.className === 'open-overlay';
+		/* Toggle the aria-hidden state on the overlay and the
+		no-scroll class on the body */
+		overlay.setAttribute('aria-hidden', !overlayOpen);
+		body.classList.toggle('noscroll', overlayOpen);
+		/* On some mobile browser when the overlay was previously
+		opened and scrolled, if you open it again it doesn't
+		reset its scrollTop property */
+		overlay.scrollTop = 0;
+		}, false);
+		});
+		</script>
+	</body>
+</html>
