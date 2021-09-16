@@ -66,7 +66,6 @@ const listContact = () => {
 // menampilkan data sebuah contact
 const detailContact = (nama) => {
   const contacts = loadContact();
-
   const contact = contacts.find(contact => contact.nama.toLowerCase() === nama.toLowerCase());
 
   if (!contact) {
